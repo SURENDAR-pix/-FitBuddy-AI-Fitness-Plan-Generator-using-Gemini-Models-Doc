@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+FitBuddy – Admin Dashboard
+{% endblock %}
+
+
+{% block content %}
+
+<section class="card">
+
+    <div class="admin-heading">
+
+        <div>
+
+            <p class="eyebrow">
+                ADMIN DASHBOARD
+            </p>
+
+            <h1>
+                All users & plans
+            </h1>
+
+        </div>
+
+
+        <form
+            action="/admin/logout"
+            method="post"
+        >
+
+            <button
+                class="button secondary"
+                type="submit"
+            >
+                Log out
+            </button>
+
+        </form>
+
+    </div>
+
+
+    {% if not users %}
+
+    <p>
+        No users have been registered yet.
+    </p>
+
+    {% endif %}
+
+
+    {% for user in users %}
+
+    {% set plan = plans.get(user.user_id) %}
+
+
+    <article class="user-card">
+
+        <div class="user-header">
+
+            <div>
+
+                <h2>
+                    {{ user.username }}
+                </h2>
+
+                <p class="muted">
+
+                    {{ user.user_id }}
+                    ·
+                    {{ user.goal|title }}
+                    ·
+                    {{ user.intensity|title }}
+
+                </p>
+
+            </div>
+
+
+            <form
+                action="/admin/delete/{{ user.user_id }}"
+                method="post"
+                onsubmit="return confirm('Delete this user and their plan?')"
+            >
+
+                <button
+                    class="danger"
+                    type="submit"
+                >
+                    Delete
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <div class="admin-meta">
+
+            <span>
+                Age: {{ user.age }}
+            </span>
+
+            <span>
+                Weight: {{ user.weight }} kg
+            </span>
+
+            <span>
+                Created: {{ user.created_at }}
+            </span>
+
+        </div>
+
+
+        {% if plan %}
+
+        <details>
+
+            <summary>
+                Original plan
+            </summary>
+
+            <pre class="plan compact">{{ plan.original_plan }}</pre>
+
+        </details>
+
+
+        {% if plan.updated_plan %}
+
+        <details>
+
+            <summary>
+                Updated plan
+            </summary>
+
+            <pre class="plan compact">{{ plan.updated_plan }}</pre>
+
+        </details>
+
+        {% endif %}
+
+
+        {% if plan.feedback %}
+
+        <div class="feedback">
+
+            <strong>
+                Feedback:
+            </strong>
+
+            {{ plan.feedback }}
+
+        </div>
+
+        {% endif %}
+
+        {% endif %}
+
+    </article>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

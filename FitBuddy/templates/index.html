@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+
+{% block title %}
+FitBuddy – Generate Plan
+{% endblock %}
+
+
+{% block content %}
+
+<section class="hero card">
+
+    <p class="eyebrow">
+        AI FITNESS PLANNER
+    </p>
+
+    <h1>
+        Create your 7-day fitness plan
+    </h1>
+
+    <p class="lead">
+
+        Enter your basic details and FitBuddy
+        will generate a structured workout plan
+        plus a concise nutrition or recovery tip.
+
+    </p>
+
+
+    {% if error %}
+
+    <div class="alert error">
+
+        {{ error }}
+
+    </div>
+
+    {% endif %}
+
+
+    <form
+        action="/generate-workout"
+        method="post"
+        class="form-grid"
+        data-loading-form
+    >
+
+        <label>
+
+            Name
+
+            <input
+                name="username"
+                required
+                maxlength="100"
+                placeholder="Your name"
+            >
+
+        </label>
+
+
+        <label>
+
+            User ID
+
+            <input
+                name="user_id"
+                required
+                maxlength="64"
+                pattern="[A-Za-z0-9_-]+"
+                placeholder="e.g. user001"
+            >
+
+        </label>
+
+
+        <label>
+
+            Age
+
+            <input
+                name="age"
+                type="number"
+                min="13"
+                max="100"
+                required
+                placeholder="Age"
+            >
+
+        </label>
+
+
+        <label>
+
+            Weight (kg)
+
+            <input
+                name="weight"
+                type="number"
+                min="0.1"
+                max="500"
+                step="0.1"
+                required
+                placeholder="e.g. 65"
+            >
+
+        </label>
+
+
+        <label>
+
+            Fitness goal
+
+            <select
+                name="goal"
+                required
+            >
+
+                <option value="weight loss">
+                    Weight loss
+                </option>
+
+                <option value="muscle gain">
+                    Muscle gain
+                </option>
+
+                <option value="general wellness">
+                    General wellness
+                </option>
+
+                <option value="flexibility">
+                    Flexibility
+                </option>
+
+            </select>
+
+        </label>
+
+
+        <label>
+
+            Workout intensity
+
+            <select
+                name="intensity"
+                required
+            >
+
+                <option value="low">
+                    Low
+                </option>
+
+                <option
+                    value="medium"
+                    selected
+                >
+                    Medium
+                </option>
+
+                <option value="high">
+                    High
+                </option>
+
+            </select>
+
+        </label>
+
+
+        <div class="full-width">
+
+            <button
+                class="button"
+                type="submit"
+            >
+                Generate Plan
+            </button>
+
+            <span
+                class="loading"
+                aria-live="polite"
+            >
+                Generating with Gemini…
+            </span>
+
+        </div>
+
+    </form>
+
+</section>
+
+
+<section class="info-grid">
+
+    <div class="card">
+
+        <h2>
+            7-day structure
+        </h2>
+
+        <p>
+            Warm-up, main workout,
+            cooldown/recovery, and a
+            balanced rest-focused day.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            AI feedback loop
+        </h2>
+
+        <p>
+            Submit feedback later to
+            regenerate a revised plan while
+            keeping the original version.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            Persistent storage
+        </h2>
+
+        <p>
+            User profiles and generated
+            plans are stored in SQLite
+            through SQLAlchemy.
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}
